@@ -1,6 +1,6 @@
 {
   "name": "@dpdpkit/client",
-  "version": "0.1.0-dev.0",
+  "version": "0.1.0-alpha.1",
   "description": "Typed TypeScript client for the dpdpkit REST contract (India DPDP Act consent, notices, rights requests).",
   "license": "Apache-2.0",
   "type": "module",
@@ -20,10 +20,25 @@
       "require": "./dist/express.cjs"
     }
   },
-  "files": ["dist", "README.md", "LICENSE"],
-  "engines": { "node": ">=18" },
-  "repository": { "type": "git", "url": "git+https://github.com/dpdpkit-dev/dpdpkit-client.git" },
-  "keywords": ["dpdp", "privacy", "consent", "india", "openapi"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpdpkit-dev/dpdpkit-client.git"
+  },
+  "keywords": [
+    "dpdp",
+    "privacy",
+    "consent",
+    "india",
+    "openapi"
+  ],
   "scripts": {
     "sync-spec": "node scripts/sync-spec.mjs",
     "generate": "openapi-typescript spec/openapi.yaml -o src/schema.ts",
@@ -40,5 +55,8 @@
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
   },
-  "publishConfig": { "access": "public", "provenance": true }
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }
