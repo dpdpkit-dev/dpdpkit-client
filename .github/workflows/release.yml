@@ -15,9 +15,12 @@ jobs:
     permissions:
       contents: write
       id-token: write   # npm provenance
+    env:
+      # registry-url writes an .npmrc that reads this; setup-node v7 no longer exports a placeholder.
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
@@ -31,8 +34,6 @@ jobs:
       - run: npm ci
       - run: npm run typecheck && npm test && npm run build && npm run check:generated
       - run: npm publish --provenance --access public --tag ${{ steps.v.outputs.tag }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: SBOM
         uses: anchore/sbom-action@v0
         with:
@@ -46,7 +47,7 @@ jobs:
             $0 ~ "^## " { if (found) exit; if (index($0, v)) { found=1; next } }
             found { print }' CHANGELOG.md > notes.md
           test -s notes.md || echo "See CHANGELOG.md" > notes.md
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           body_path: notes.md
           prerelease: ${{ steps.v.outputs.tag == 'next' }}
