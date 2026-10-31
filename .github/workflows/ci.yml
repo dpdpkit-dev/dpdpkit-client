@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [20, 22, 24]
+        node: [22, 24]   # vitest 5 needs Node 22.12+; older runtimes are covered by runtime-smoke
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -29,6 +29,26 @@ jobs:
       - name: Generated types match spec/openapi.yaml
         run: npm run check:generated
       - run: npm audit --audit-level=high --omit=dev
+      - if: matrix.node == 22
+        uses: actions/upload-artifact@v7
+        with: { name: dist, path: dist }
+
+  # The published package supports Node 18+ (engines); the toolchain needs 22+. Load the built
+  # output on the older runtimes without installing any dev dependencies.
+  runtime-smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with: { name: dist, path: dist }
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node scripts/smoke.mjs
 
   spec-drift:
     # Warns when dpdpkit-spec main has moved ahead of the vendored copy.

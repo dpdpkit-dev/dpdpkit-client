@@ -3,6 +3,17 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule: { interval: weekly }
+    ignore:
+      # Types follow the oldest Node the toolchain supports (22), not the newest release.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: npm
+    directory: /scripts/codegen
+    schedule: { interval: weekly }
+    ignore:
+      # openapi-typescript needs the TypeScript 5 compiler API (TypeScript 7 has none).
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly }

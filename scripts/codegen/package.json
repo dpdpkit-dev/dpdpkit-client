@@ -1,0 +1,10 @@
+{
+  "name": "dpdpkit-client-codegen",
+  "private": true,
+  "description": "Generates src/schema.ts from spec/openapi.yaml. Kept apart because openapi-typescript needs the TypeScript 5 compiler API, while the package itself builds with TypeScript 7.",
+  "type": "module",
+  "devDependencies": {
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^5.9.3"
+  }
+}
