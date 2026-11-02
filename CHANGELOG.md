@@ -4,6 +4,8 @@ All code packages in the dpdpkit release train share one version number.
 
 ## Unreleased
 
+## 0.1.0-alpha.2 - 2026-11-02
+
 ### Changed
 - Built with TypeScript 7, vite 8 and vitest 5. Type declarations are unchanged; shared code between the
   main and `express` entry points is now one chunk instead of being copied into both.
