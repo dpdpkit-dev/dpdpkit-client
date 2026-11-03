@@ -1,5 +1,5 @@
-# Release on tag vX.Y.Z (package.json version must match). Pre-release tags publish under the "next"
-# dist-tag. Requires the NPM_TOKEN secret (or npm trusted publishing) — task SETUP-08.
+# Release on tag vX.Y.Z (package.json version must match). Publishes as "latest".
+# Requires the NPM_TOKEN secret (or npm trusted publishing) — task SETUP-08.
 name: Release
 
 on:
@@ -33,7 +33,8 @@ jobs:
           if [[ "$version" == *-* ]]; then echo "tag=next" >> "$GITHUB_OUTPUT"; else echo "tag=latest" >> "$GITHUB_OUTPUT"; fi
       - run: npm ci
       - run: npm run typecheck && npm test && npm run build && npm run check:generated
-      - run: npm publish --provenance --access public --tag ${{ steps.v.outputs.tag }}
+      # Every release goes to "latest" while all versions are pre-releases. Use steps.v.outputs.tag once a stable release exists.
+      - run: npm publish --provenance --access public --tag latest
       - name: SBOM
         uses: anchore/sbom-action@v0
         with:
